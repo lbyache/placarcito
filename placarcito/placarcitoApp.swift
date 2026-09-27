@@ -2,8 +2,6 @@
 //  placarcitoApp.swift
 //  placarcito
 //
-//  Created by Laura Yachelini on 28/07/2026.
-//
 
 import SwiftUI
 import SwiftData
@@ -12,12 +10,16 @@ import SwiftData
 struct placarcitoApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ClothingItem.self,
+            Outfit.self,
+            LoggedOutfit.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            SeedData.populateIfNeeded(modelContext: container.mainContext)
+            return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

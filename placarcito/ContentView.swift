@@ -2,60 +2,62 @@
 //  ContentView.swift
 //  placarcito
 //
-//  Created by Laura Yachelini on 28/07/2026.
-//
 
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var selectedTab: Tab = .closet
+    
+    enum Tab {
+        case closet
+        case generator
+        case assistant
+        case laundry
+        case analytics
+    }
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+        TabView(selection: $selectedTab) {
+            ClosetView()
+                .tabItem {
+                    Label("Armario", systemImage: "square.grid.2x2.fill")
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+                .tag(Tab.closet)
+            
+            OutfitGeneratorView()
+                .tabItem {
+                    Label("Outfits", systemImage: "sparkles")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+                .tag(Tab.generator)
+            
+            AssistantChatView()
+                .tabItem {
+                    Label("Asistente", systemImage: "message.fill")
                 }
-            }
-        } detail: {
-            Text("Select an item")
+                .tag(Tab.assistant)
+            
+            LaundryTrackerView()
+                .tabItem {
+                    Label("Lavadero", systemImage: "washer.fill")
+                }
+                .tag(Tab.laundry)
+            
+            ClosetAnalyticsView()
+                .tabItem {
+                    Label("Métricas", systemImage: "chart.bar.fill")
+                }
+                .tag(Tab.analytics)
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+        .tint(.black)
+        .onAppear {
+            SeedData.populateIfNeeded(modelContext: modelContext)
         }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: [ClothingItem.self, Outfit.self, LoggedOutfit.self], inMemory: true)
 }
