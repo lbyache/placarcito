@@ -14,10 +14,10 @@ public struct ClothingItemTests {
         func assert(_ condition: Bool, _ message: String) {
             if condition {
                 passed += 1
-                logs.append("  ✅ PASS: \(message)")
+                logs.append("  PASS: \(message)")
             } else {
                 failed += 1
-                logs.append("  ❌ FAIL: \(message)")
+                logs.append("  FAIL: \(message)")
             }
         }
 

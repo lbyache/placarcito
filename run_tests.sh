@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "=================================================="
-echo "⚙️ Compilando Suite de Pruebas Placarcito..."
-echo "=================================================="
+echo "Compilando suite de pruebas de placarcito..."
 
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun -sdk iphonesimulator swiftc \
   -target arm64-apple-ios26.5-simulator \
@@ -15,8 +13,6 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun -sdk iphonesimula
 DEVICE_ID="7C5BB601-FE22-44B2-AD7A-13426200BAFE"
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
 
-echo "=================================================="
-echo "▶️ Ejecutando Pruebas en el Simulador de iOS..."
-echo "=================================================="
+echo "Ejecutando pruebas en el simulador..."
 
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun simctl spawn "$DEVICE_ID" /tmp/placarcitoTestRunner

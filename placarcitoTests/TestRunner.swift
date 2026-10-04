@@ -9,7 +9,7 @@ import Foundation
 struct TestRunner {
     static func main() {
         print("==================================================")
-        print("🚀 RUNNING PLACARCITO SUITE DE PRUEBAS AUTOMATIZADA")
+        print("Suite de pruebas unitarias: placarcito")
         print("==================================================")
 
         var totalPassed = 0
@@ -35,9 +35,9 @@ struct TestRunner {
         }
 
         print("==================================================")
-        print("📊 RESUMEN FINAL DE EJECUCIÓN DE PRUEBAS")
-        print("  - Total Pruebas Pasadas: \(totalPassed) ✅")
-        print("  - Total Pruebas Fallidas: \(totalFailed) ❌")
+        print("Resumen de ejecucion:")
+        print("  - Pruebas superadas: \(totalPassed)")
+        print("  - Pruebas fallidas:  \(totalFailed)")
         print("==================================================")
 
         if totalFailed > 0 {
